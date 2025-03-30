@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main   # Trigger the workflow on push to the main branch
+  pull_request:
+    branches:
+      - main   # Trigger on pull requests to the main branch
+
+jobs:
+  # Frontend Build, Test, and Deploy
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (Frontend)
+        run: |
+          npm install
+
+      - name: Run Frontend Tests
+        run: |
+          npm test   # Replace with your test command if you use tests
+
+      - name: Build Docker Image (Frontend)
+        run: |
+          docker build -t my-frontend .
+
+      - name: Push Docker Image to Docker Hub
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker tag my-frontend:latest ishandilhan/my-frontend:latest
+          docker push ishandilhan/my-frontend:latest
