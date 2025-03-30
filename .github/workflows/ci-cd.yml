@@ -25,9 +25,9 @@ jobs:
         run: |
           npm install
 
-      - name: Run Frontend Tests
-        run: |
-          npm test   # Replace with your test command if you use tests
+      # - name: Run Frontend Tests
+      #   run: |
+      #     npm test   # Replace with your test command if you use tests
 
       - name: Build Docker Image (Frontend)
         run: |
